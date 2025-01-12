@@ -5,6 +5,10 @@ import com.sc.SpringEcom.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +25,14 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+    public ResponseEntity<Page<Product>> getAllProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productService.getAllProducts(pageable);
+        return new ResponseEntity<>(productPage, HttpStatus.OK);
     }
+
 
     @GetMapping("product/{productId}")
     public ResponseEntity<?> getProductById(@PathVariable int productId) {
@@ -85,4 +93,56 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
+    @GetMapping("/products/filter-by-price")
+    public ResponseEntity<Page<Product>> filterProductsByPrice(
+            @RequestParam Double minPrice,
+            @RequestParam Double maxPrice,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> filteredProducts = productService.filterProductsByPrice(minPrice, maxPrice, pageable);
+        return new ResponseEntity<>(filteredProducts, HttpStatus.OK);
+    }
+
+    @GetMapping("/products/sort")
+    public ResponseEntity<Page<Product>> sortProducts(
+            @RequestParam boolean ascending,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productService.sortProducts(pageable, ascending);
+        return new ResponseEntity<>(productPage, HttpStatus.OK);
+    }
+
+
+//    @GetMapping("/products/top-selling")
+//    public ResponseEntity<Page<Product>> getTopSellingProducts(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<Product> topSellingProducts = productService.getTopSellingProducts(pageable);
+//        return new ResponseEntity<>(topSellingProducts, HttpStatus.OK);
+//    }
+
+    @GetMapping("/products/category")
+    public ResponseEntity<Page<Product>> getProductsByCategory(
+            @RequestParam String category,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productsByCategory = productService.getProductsByCategory(category, pageable);
+        return new ResponseEntity<>(productsByCategory, HttpStatus.OK);
+    }
+
+//    @GetMapping("/product/{productId}/average-rating")
+//    public ResponseEntity<Double> getAverageRating(@PathVariable int productId) {
+//        Double averageRating = productService.getAverageRating(productId);
+//        return new ResponseEntity<>(averageRating, HttpStatus.OK);
+//    }
+    @PutMapping("/product/{productId}/stock")
+    public ResponseEntity<String> updateStock(@PathVariable int productId, @RequestParam int quantity) {
+        productService.updateStock(productId, quantity);
+        return new ResponseEntity<>("Stock updated", HttpStatus.OK);
+    }
 }
