@@ -2,6 +2,8 @@ package com.sc.SpringEcom.controller;
 
 import com.sc.SpringEcom.model.Product;
 import com.sc.SpringEcom.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
     @Autowired
     private ProductService productService;
 
@@ -51,6 +53,7 @@ public class ProductController {
             savedProduct = productService.addOrUpdateProduct(product, image);
             return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
         } catch (IOException e) {
+            LOGGER.error("Error while saving product: {}",e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
