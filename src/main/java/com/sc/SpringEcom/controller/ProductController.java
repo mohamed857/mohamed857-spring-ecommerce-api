@@ -17,7 +17,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
     @Autowired
     private ProductService productService;
 
@@ -53,7 +52,6 @@ public class ProductController {
             savedProduct = productService.addOrUpdateProduct(product, image);
             return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
         } catch (IOException e) {
-            LOGGER.error("Error while saving product: {}",e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
