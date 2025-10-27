@@ -33,7 +33,6 @@ public class ProductController {
         return new ResponseEntity<>(productPage, HttpStatus.OK);
     }
 
-
     @GetMapping("product/{productId}")
     public ResponseEntity<?> getProductById(@PathVariable int productId) {
         Product product = productService.getProductById(productId);
@@ -84,7 +83,6 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     @GetMapping("/product/search")
     public ResponseEntity<List<Product>> searchProducts(@RequestParam String keyword) {

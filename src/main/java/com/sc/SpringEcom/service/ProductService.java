@@ -3,18 +3,21 @@ package com.sc.SpringEcom.service;
 import com.sc.SpringEcom.model.Product;
 import com.sc.SpringEcom.repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-
+@Service
 public class ProductService {
 
     @Autowired
     private ProductRepo productRepo;
 
-    public List<Product> getAllProducts() {
-        return productRepo.findAll();
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepo.findAll(pageable);
     }
 
     public Product getProductById(int id) {
@@ -40,4 +43,31 @@ public class ProductService {
     public List<Product> searchProducts(String keyword) {
         return productRepo.searchProducts(keyword);
     }
+
+    public Page<Product> filterProductsByPrice(Double minPrice, Double maxPrice, Pageable pageable) {
+        return productRepo.findProductsByPriceRange(minPrice, maxPrice, pageable);
+    }
+    public void updateStock(int productId, int quantity) {
+        productRepo.updateStock(productId, quantity);
+    }
+//    public Double getAverageRating(int productId) {
+//        return productRepo.getAverageRating(productId);
+//    }
+
+    public Page<Product> getProductsByCategory(String category, Pageable pageable) {
+        return productRepo.findByCategory(category, pageable);
+    }
+//    public Page<Product> getTopSellingProducts(Pageable pageable) {
+//        return productRepo.findTopSellingProducts(pageable);
+//    }
+    public Page<Product> sortProducts(Pageable pageable, boolean ascending) {
+        if (ascending) {
+            return productRepo.findAllByOrderByPriceAsc(pageable);
+        } else {
+            return productRepo.findAllByOrderByPriceDesc(pageable);
+        }
+    }
+
+
+
 }

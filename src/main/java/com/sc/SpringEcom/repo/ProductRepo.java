@@ -24,8 +24,10 @@ public interface ProductRepo extends JpaRepository<Product,Integer> {
     @Query("UPDATE Product p SET p.stockQuantity = :quantity WHERE p.id = :productId")
     void updateStock(int productId, int quantity);
 
-    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.product.id = :productId")
-    Double getAverageRating(int productId);
+//    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.product.id = :productId")
+//    Double getAverageRating(int productId);
+//Double findAverageRatingById(int id);
+
 
     Page<Product> findByCategory(String category, Pageable pageable);
 
