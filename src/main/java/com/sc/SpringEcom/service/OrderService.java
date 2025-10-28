@@ -9,11 +9,11 @@ import com.sc.SpringEcom.model.dto.OrderRequest;
 import com.sc.SpringEcom.model.dto.OrderResponse;
 import com.sc.SpringEcom.repo.OrderRepo;
 import com.sc.SpringEcom.repo.ProductRepo;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -82,6 +82,7 @@ public class OrderService {
         return  orderResponse;
     }
 
+    @Transactional
     public List<OrderResponse> getAllOrderResponse(){
         List<Order> orders = orderRepo.findAll();
 
