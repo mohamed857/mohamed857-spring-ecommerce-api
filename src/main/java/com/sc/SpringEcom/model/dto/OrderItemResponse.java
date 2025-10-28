@@ -2,7 +2,7 @@ package com.sc.SpringEcom.model.dto;
 
 import java.math.BigDecimal;
 
-public record OrderItemResponse(
+public record   OrderItemResponse(
         String productName,
         int quantity,
         BigDecimal totalPrice

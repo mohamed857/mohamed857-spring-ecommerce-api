@@ -35,10 +35,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<Page<Order>> getAllOrders(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return new ResponseEntity<>(orderService.getAllOrderResponses(pageable),HttpStatus.OK);
+    public ResponseEntity<List<OrderResponse>> getAllOrderResponse() {
+        return new ResponseEntity<>(orderService.getAllOrderResponse(),HttpStatus.OK);
     }
 }
