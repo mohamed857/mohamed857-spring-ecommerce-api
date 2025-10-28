@@ -5,5 +5,5 @@ import java.util.List;
 public record OrderRequest(
         String customName,
         String email,
-        List<OrderItemRequest> tems
+        List<OrderItemRequest> items
 ) {}
