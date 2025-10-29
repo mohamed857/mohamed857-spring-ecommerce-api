@@ -29,7 +29,7 @@ public class OrderService {
     @Autowired
     private ProductRepo productRepo;
 
-    public Page<Order> getAllOrderResponses(Pageable pageable){
+    public Page<Order> getAllOrder(Pageable pageable){
         return orderRepo.findAll(pageable);
     }
 
