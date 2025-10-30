@@ -23,9 +23,9 @@ public class OrderController {
 
     @PostMapping("/orders/place")
     public ResponseEntity<OrderResponse> placeOrder(
-            @RequestParam OrderRequest orderRequest) {
+            @RequestBody OrderRequest orderRequest) {
         OrderResponse orderResponse = orderService.placeOrder(orderRequest);
-        return new ResponseEntity<>(orderResponse,HttpStatus.OK);
+        return new ResponseEntity<>(orderResponse,HttpStatus.CREATED);
     }
 
     @GetMapping("/orders")
