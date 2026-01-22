@@ -19,6 +19,9 @@ public class ProductService {
     public Page<Product> getAllProducts(Pageable pageable) {
         return productRepo.findAll(pageable);
     }
+    public List<Product> getAllProducts() {
+        return productRepo.findAll();
+    }
 
     public Product getProductById(int id) {
         return (Product) productRepo.findById(id).orElse(new Product(-1));

@@ -25,7 +25,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/products")
+    @GetMapping("/productsPagination")
     public ResponseEntity<Page<Product>> getAllProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -33,6 +33,11 @@ public class ProductController {
         Page<Product> productPage = productService.getAllProducts(pageable);
         return new ResponseEntity<>(productPage, HttpStatus.OK);
     }
+@GetMapping("/products")
+public ResponseEntity<List<Product>> getProducts() {
+    return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+}
+
 
     @GetMapping("product/{productId}")
     public ResponseEntity<?> getProductById(@PathVariable int productId) {
