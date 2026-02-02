@@ -20,8 +20,11 @@ import java.util.List;
 @RequestMapping("/api")
 @CrossOrigin
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("/productsPagination")
     public ResponseEntity<Page<Product>> getAllProducts(
@@ -117,16 +120,6 @@ public class ProductController {
         return new ResponseEntity<>(productPage, HttpStatus.OK);
     }
 
-
-//    @GetMapping("/products/top-selling")
-//    public ResponseEntity<Page<Product>> getTopSellingProducts(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<Product> topSellingProducts = productService.getTopSellingProducts(pageable);
-//        return new ResponseEntity<>(topSellingProducts, HttpStatus.OK);
-//    }
-
     @GetMapping("/products/category")
     public ResponseEntity<Page<Product>> getProductsByCategory(
             @RequestParam String category,
@@ -137,11 +130,6 @@ public class ProductController {
         return new ResponseEntity<>(productsByCategory, HttpStatus.OK);
     }
 
-//    @GetMapping("/product/{productId}/average-rating")
-//    public ResponseEntity<Double> getAverageRating(@PathVariable int productId) {
-//        Double averageRating = productService.getAverageRating(productId);
-//        return new ResponseEntity<>(averageRating, HttpStatus.OK);
-//    }
     @PutMapping("/product/{productId}/stock")
     public ResponseEntity<String> updateStock(@PathVariable int productId, @RequestParam int quantity) {
         productService.updateStock(productId, quantity);

@@ -1,4 +1,4 @@
-Spring E-Commerce API
+    Spring E-Commerce API
 Overview
 This is a Spring Boot 3-based RESTful API for an e-commerce platform. The API enables basic product management functionality including adding, updating, deleting, retrieving, and searching for products. It also provides the ability to upload and retrieve product images.
 

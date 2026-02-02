@@ -3,7 +3,7 @@ package com.sc.SpringEcom.model.dto;
 import java.util.List;
 
 public record OrderRequest(
-        String customName,
+        String customerName,
         String email,
         List<OrderItemRequest> items
 ) {}
